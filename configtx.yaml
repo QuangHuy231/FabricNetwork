@@ -50,40 +50,40 @@ Organizations:
       Endorsement:
         Type: Signature
         Rule: "OR('OrgBMSP.peer','OrgBMSP.admin')"
-  - &OrgC
-    Name: OrgCMSP
-    ID: OrgCMSP
-    MSPDir: /home/huy/FabricNetwork/InfoOfOrg/MSPOrgC
-    Policies:
-      Readers:
-        Type: Signature
-        Rule: "OR('OrgCMSP.admin', 'OrgCMSP.peer', 'OrgCMSP.client')"
-      Writers:
-        Type: Signature
-        Rule: "OR('OrgCMSP.admin', 'OrgCMSP.client')"
-      Admins:
-        Type: Signature
-        Rule: "OR('OrgCMSP.admin')"
-      Endorsement:
-        Type: Signature
-        Rule: "OR('OrgCMSP.peer', 'OrgCMSP.admin')"
-  - &OrgD
-    Name: OrgDMSP
-    ID: OrgDMSP
-    MSPDir: /home/huy/FabricNetwork/InfoOfOrg/MSPOrgD
-    Policies:
-      Readers:
-        Type: Signature
-        Rule: "OR('OrgDMSP.admin', 'OrgDMSP.peer', 'OrgDMSP.client')"
-      Writers:
-        Type: Signature
-        Rule: "OR('OrgDMSP.admin', 'OrgDMSP.client')"
-      Admins:
-        Type: Signature
-        Rule: "OR('OrgDMSP.admin')"
-      Endorsement:
-        Type: Signature
-        Rule: "OR('OrgDMSP.peer','OrgDMSP.admin')"
+  # - &OrgC
+  #   Name: OrgCMSP
+  #   ID: OrgCMSP
+  #   MSPDir: /home/huy/FabricNetwork/InfoOfOrg/MSPOrgC
+  #   Policies:
+  #     Readers:
+  #       Type: Signature
+  #       Rule: "OR('OrgCMSP.admin', 'OrgCMSP.peer', 'OrgCMSP.client')"
+  #     Writers:
+  #       Type: Signature
+  #       Rule: "OR('OrgCMSP.admin', 'OrgCMSP.client')"
+  #     Admins:
+  #       Type: Signature
+  #       Rule: "OR('OrgCMSP.admin')"
+  #     Endorsement:
+  #       Type: Signature
+  #       Rule: "OR('OrgCMSP.peer', 'OrgCMSP.admin')"
+  # - &OrgD
+#     Name: OrgDMSP
+#     ID: OrgDMSP
+#     MSPDir: /home/huy/FabricNetwork/InfoOfOrg/MSPOrgD
+#     Policies:
+#       Readers:
+#         Type: Signature
+#         Rule: "OR('OrgDMSP.admin', 'OrgDMSP.peer', 'OrgDMSP.client')"
+#       Writers:
+#         Type: Signature
+#         Rule: "OR('OrgDMSP.admin', 'OrgDMSP.client')"
+#       Admins:
+#         Type: Signature
+#         Rule: "OR('OrgDMSP.admin')"
+#       Endorsement:
+#         Type: Signature
+#         Rule: "OR('OrgDMSP.peer','OrgDMSP.admin')"
 Capabilities:
   Channel: &ChannelCapabilities
     V2_0: true
@@ -181,7 +181,7 @@ Profiles:
       Organizations:
         - *OrgA
         - *OrgB
-        - *OrgC
-        - *OrgD
-        - *OrdererOrg
+        # - *OrgC
+        # - *OrgD
+        # - *OrdererOrg
       Capabilities: *ApplicationCapabilities

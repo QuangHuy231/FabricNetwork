@@ -578,8 +578,8 @@ chaincode:
   # If you don't need to fallback to the default Docker builder, also unconfigure vm.endpoint above.
   # To override this property via env variable use CORE_chaincode-externalBUILDERS: [{name: x, path: dir1}, {name: y, path: dir2}]
   externalBuilders:
-    # - path: /home/huy/deployFabric/chaincode-external/sampleBuilder
-    #   name: external-sample-builder
+    - path: /home/huy/FabricNetwork/chaincode-external/sampleBuilder
+      name: external-sample-builder
     # propagateEnvironment:
     #   - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG
 
