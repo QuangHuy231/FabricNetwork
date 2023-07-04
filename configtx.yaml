@@ -1,0 +1,187 @@
+Organizations:
+  - &OrdererOrg
+    Name: OrdererOrg
+    ID: OrdererMSP
+    MSPDir: /home/huy/FabricNetwork/InfoOfOrg/MSPOrgOrderer
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrdererMSP.admin')"
+    # AnchorPeers:
+    #   - Host: localhost
+    #     Port: 11051
+  - &OrgA
+    Name: OrgAMSP
+    ID: OrgAMSP
+    MSPDir: /home/huy/FabricNetwork/InfoOfOrg/MSPOrgA
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrgAMSP.admin', 'OrgAMSP.peer', 'OrgAMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrgAMSP.admin', 'OrgAMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrgAMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('OrgAMSP.peer','OrgAMSP.admin')"
+  - &OrgB
+    Name: OrgBMSP
+    ID: OrgBMSP
+    MSPDir: /home/huy/FabricNetwork/InfoOfOrg/MSPOrgB
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrgBMSP.admin', 'OrgBMSP.peer', 'OrgBMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrgBMSP.admin', 'OrgBMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrgBMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('OrgBMSP.peer','OrgBMSP.admin')"
+  - &OrgC
+    Name: OrgCMSP
+    ID: OrgCMSP
+    MSPDir: /home/huy/FabricNetwork/InfoOfOrg/MSPOrgC
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrgCMSP.admin', 'OrgCMSP.peer', 'OrgCMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrgCMSP.admin', 'OrgCMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrgCMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('OrgCMSP.peer', 'OrgCMSP.admin')"
+  - &OrgD
+    Name: OrgDMSP
+    ID: OrgDMSP
+    MSPDir: /home/huy/FabricNetwork/InfoOfOrg/MSPOrgD
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrgDMSP.admin', 'OrgDMSP.peer', 'OrgDMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrgDMSP.admin', 'OrgDMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrgDMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('OrgDMSP.peer','OrgDMSP.admin')"
+Capabilities:
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_5: true
+
+Application: &ApplicationDefaults
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+
+  Capabilities:
+    <<: *ApplicationCapabilities
+Orderer: &OrdererDefaults
+  OrdererType: etcdraft
+  Addresses:
+    - localhost:7050
+    - localhost:8050
+    - localhost:9050
+  EtcdRaft:
+    Consenters:
+      - Host: localhost
+        Port: 7050
+        ClientTLSCert: /home/huy/FabricNetwork/InfoOfOrg/Orderers/Orderer1/cert.pem
+        ServerTLSCert: /home/huy/FabricNetwork/InfoOfOrg/Orderers/Orderer1/cert.pem
+      - Host: localhost
+        Port: 8050
+        ClientTLSCert: /home/huy/FabricNetwork/InfoOfOrg/Orderers/Orderer2/cert.pem
+        ServerTLSCert: /home/huy/FabricNetwork/InfoOfOrg/Orderers/Orderer2/cert.pem
+      - Host: localhost
+        Port: 9050
+        ClientTLSCert: /home/huy/FabricNetwork/InfoOfOrg/Orderers/Orderer3/cert.pem
+        ServerTLSCert: /home/huy/FabricNetwork/InfoOfOrg/Orderers/Orderer3/cert.pem
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+
+  Capabilities:
+    <<: *ChannelCapabilities
+
+Profiles:
+  FourOrgsApplicationGenesis:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+      Capabilities: *OrdererCapabilities
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *OrgA
+        - *OrgB
+        - *OrgC
+        - *OrgD
+        - *OrdererOrg
+      Capabilities: *ApplicationCapabilities
